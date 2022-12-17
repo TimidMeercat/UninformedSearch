@@ -36,6 +36,7 @@ def zero_pos(n):
         pos += 1
 
 
+# moves the blank tile up and returns a new node
 def move_up(n, pos):
     n1 = deepcopy(n)
     if pos > 2:
@@ -106,6 +107,8 @@ def config_exits(chk):
             return True
     return False
 
+
+# Finds all successors nodes for a given node
 def successor(n):
     p = zero_pos(n)
     a1 = move_up(n, p)
@@ -137,6 +140,7 @@ def successor(n):
     return a
 
 
+# Checks if the initial state is solvable
 def solvability(inp):
     l = len(inp[:-2])
     n = abs(math.sqrt(l))
@@ -160,6 +164,7 @@ def solvability(inp):
         return False
 
 
+# Generates the final path after finding the solution
 def generate_path(parent):
     print('Generating Path')
     index = 0
@@ -203,7 +208,7 @@ def generate_path(parent):
     nds.reverse()
     del nds[-1]
     path.reverse()
-    nds = np.array(nds).reshape(-1, 3,)
+    nds = np.array(nds).reshape(-1, 3, 3)
     for i in nds:
         for j in i:
             print(j)
@@ -218,6 +223,7 @@ def generate_path(parent):
     print(path)
 
 
+# Breadth First Search Algorithm
 def bfs(node_list):
     new_nodes = []
     global parent
@@ -239,6 +245,7 @@ def bfs(node_list):
         print('Solution could not be found')
 
 
+# Depth First Search Algorithm
 def dfs(node):
     global parent
     if node[:9] == [1, 2, 3, 4, 5, 6, 7, 8, 0]:
@@ -256,6 +263,7 @@ def dfs(node):
     return False
 
 
+# Iterative Depth First Search Algorithm
 def dfsb(node, depth, limit):
     global parent
     if node[:9] == [1, 2, 3, 4, 5, 6, 7, 8, 0]:
@@ -285,24 +293,25 @@ def idfs(node):
         depth_limit += 1
 
 
-inp_choice = input("Enter your search method\n1 for BFS\n2 for DFS\n3 for IDFS\n4 to exit\n")
-inp_choice = int(inp_choice)
-if inp_choice != 4:
-    all_nodes = [num_input("Enter the numbers row wise with 0 as blank position\n")]
-    parent = deepcopy(all_nodes)
-    if solvability(parent[0]):
-        if inp_choice == 1:
-            print('Solving with BFS')
-            bfs(all_nodes)
-        elif inp_choice == 2:
-            print('Solving with DFS')
-            dfs(all_nodes[0])
-        else:
-            print('Solving with IDFS')
-            res = False
+if __name__ == '__main__':
+    inp_choice = input("Enter your search method\n1 for BFS\n2 for DFS\n3 for IDFS\n4 to exit\n")
+    inp_choice = int(inp_choice)
+    if inp_choice != 4:
+        all_nodes = [num_input("Enter the numbers row wise with 0 as blank position\n")]
+        parent = deepcopy(all_nodes)
+        if solvability(parent[0]):
+            if inp_choice == 1:
+                print('Solving with BFS')
+                bfs(all_nodes)
+            elif inp_choice == 2:
+                print('Solving with DFS')
+                dfs(all_nodes[0])
+            else:
+                print('Solving with IDFS')
+                res = False
 
-            idfs(all_nodes[0])
+                idfs(all_nodes[0])
+        else:
+            print('Solution doesnt exist for the given configuration\n')
     else:
-        print('Solution doesnt exist for the given configuration\n')
-else:
-    exit()
+        exit()
